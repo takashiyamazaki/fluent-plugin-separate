@@ -16,9 +16,7 @@ module Fluent
     def configure(conf)
       super
 
-      if not @sep_key
-        raise Fluent::ConfigError, "missing key"
-      end
+      raise Fluent::ConfigError, "missing key" if not @sep_key
 
       if not @tag and not @remove_prefix and not @add_prefix
         raise Fluent::ConfigError, "missing both of remove_prefix and add_prefix"
@@ -30,9 +28,7 @@ module Fluent
         @removed_prefix_string = @remove_prefix + '.'
         @removed_length = @removed_prefix_string.length
       end
-      if @add_prefix
-        @added_prefix_string = @add_prefix + '.'
-      end
+      @added_prefix_string = @add_prefix + '.' if @add_prefix
 
     end
 
@@ -69,9 +65,7 @@ module Fluent
         #params = [] 
         elems.each do |elem|
           kv = elem.split(@keyvalue_sep_char)
-          if kv.size != 2
-            record[kv[0]] = kv[1]
-          end
+          record[kv[0]] = kv[1] if kv.size != 2
         end
 
         Fluent::Engine.emit(tag, time, record)
