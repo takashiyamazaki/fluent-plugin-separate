@@ -65,7 +65,7 @@ module Fluent
         #params = [] 
         elems.each do |elem|
           kv = elem.split(@keyvalue_sep_char)
-          record[kv[0]] = kv[1] if kv.size != 2
+          record[kv[0]] = kv[1] if kv.size == 2
         end
 
         Fluent::Engine.emit(tag, time, record)
